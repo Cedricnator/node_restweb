@@ -1,6 +1,7 @@
 //* Implementación sin inyeccion de dependencias
 
 import express, { Router } from 'express';
+import compression from 'compression';
 import path from 'path';
 
 interface Options {
@@ -28,7 +29,8 @@ export class Server {
 
         //* Middlewares.
         this.app.use( express.json() ); // permite el 'raw'
-        this.app.use( express.urlencoded({ extended: true })); // permite el x-www-form-urlencoded 
+        this.app.use( express.urlencoded({ extended: true })); // permite el x-www-form-urlencoded
+        this.app.use( compression() ) // comprime las respuestas haciendo mas rapida la aplicación
 
         //* Public Folder.
         this.app.use(express.static( this.public_path ) );
