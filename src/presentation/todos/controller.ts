@@ -14,16 +14,20 @@ export class TodosController {
     //* Mejor aun. inyectar el repositorio para implementar y usarlo mediante casos de uso
     constructor(){}
 
-    public getTodos = (req: Request, res: Response) => {
-        res.json( todos )
-    }
-
+    public getTodos = (req: Request, res: Response) => res.json( todos )
+    
     //* El operador + convierte un string a un numero
     public getTodoById = (req: Request, res: Response ) => {
         const id = +req.params.id;
-        if ( isNaN(id) ) return res.status(400).json({ error: 'ID Argument must be a number'})
+        
+        if ( isNaN(id) ) return res.status(400).json({ 
+            error: 'ID Argument must be a number'
+        })
 
-        const todo = todos.find( todo => todo.id === id );
+        const todo = todos.find( 
+            todo => todo.id === id 
+        );
+        
         ( todo )
             ? res.json(todo)
             : res.status(404).json({ error: `Todo with id ${id} not found` })
@@ -31,11 +35,14 @@ export class TodosController {
 
     public createTodo = ( req: Request, res: Response ) => {
         const { text } = req.body;
-        if ( !text ) return res.status(400).json({ error: 'Text is required' });
+        
+        if ( !text ) return res.status(400).json({ 
+            error: 'Text is required' 
+        });
 
         const newTodo = {
-            id: todos.length + 1,
-            text: text,
+            id:     todos.length + 1,
+            text:   text,
             completedAt: null
         }
 
@@ -45,10 +52,18 @@ export class TodosController {
 
     public updateTodo = (req: Request, res: Response ) => {
         const id = +req.params.id;
-        if ( isNaN(id) ) return res.status(400).json({ error: 'ID Argument must be a number'})
+        
+        if ( isNaN(id) ) return res.status(400).json({ 
+            error: 'ID Argument must be a number'
+        })
 
-        const todo = todos.find(todo => todo.id === id);
-        if (!todo) return res.status( 404 ).json( { error: `Todo with id ${id} not found` } );
+        const todo = todos.find(
+            todo => todo.id === id
+        );
+        
+        if (!todo) return res.status( 404 ).json({ 
+            error: `Todo with id ${id} not found` 
+        });
         
         const { text, completedAt } = req.body;
         
@@ -66,6 +81,32 @@ export class TodosController {
     }
 
     public deleteTodo = (req: Request, res: Response ) => {
-        res.json({ message: 'deleteTodo' })
+        const id = +req.params.id;
+
+        if ( isNaN(id) ) return res.status(400).json({ 
+            error: 'ID Argument must be a number'
+        })
+        
+        const todo = todos.find(
+            todo => todo.id === id
+        );
+
+        if (!todo) return res.status( 404 ).json({ 
+            error: `Todo with id ${id} not found` 
+        });
+
+        todos.splice( todos.indexOf(todo), 1 );
+        const todoDeleted = todos.find(
+            todo => todo.id === id
+        );
+        
+        if (todoDeleted) return res.status( 400 ).json({ 
+            error: `Todo with id ${id} not could be deleted` 
+        });
+
+        res.json({ 
+            message: 'Todo Successfully Deleted', 
+            todo
+        })
     }
 }
