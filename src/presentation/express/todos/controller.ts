@@ -1,7 +1,7 @@
 //* El controlador es un mecanismo que permite separar la responsabilidad del router y del controlador
 import { Request, Response } from 'express';
-import { CreateTodoDto, UpdateTodoDto } from '../../domain/dtos';
-import { CreateTodo, DeleteTodo, GetTodo, GetTodos, TodoRepository, UpdateTodo } from '../../domain';
+import { CreateTodoDto, UpdateTodoDto } from '../../../domain/dtos';
+import { CreateTodo, DeleteTodo, GetTodo, GetTodos, TodoRepository, UpdateTodo } from '../../../domain';
 import { todo } from 'node:test';
 
 export class TodosController {
