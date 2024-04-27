@@ -1,6 +1,5 @@
-import { envs } from "./config/envs";
-import { Server } from "./presentation";
-import { AppRoutes } from "./presentation/routes";
+import { Server, AppRoutes } from "./presentation";
+import { envs }              from "./config";
 
 //* Función autoinvocada
 ( async() => {

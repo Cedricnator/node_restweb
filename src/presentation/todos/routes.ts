@@ -1,5 +1,5 @@
 import { Router }          from "express";
-import { TodosController } from "./controller";
+import { TodosController } from ".";
 
 //* Estas son las rutas de mis TODOS
 //* SIEMPRE Pensar que nadie sabe como usar el backend y lo usaran mal

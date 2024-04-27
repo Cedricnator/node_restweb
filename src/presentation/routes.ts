@@ -1,8 +1,8 @@
 //* Archivo de rutas que maneja mi aplicación
 //* Es un enrutador global, todas las rutas estan aqui
 
-import { Router } from "express";
-import { TodoRoutes } from "./todos/routes";
+import { Router }     from "express";
+import { TodoRoutes } from "./todos";
 
 export class AppRoutes {
     static get routes(): Router {
