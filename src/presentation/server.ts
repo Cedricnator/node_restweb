@@ -26,6 +26,8 @@ export class Server {
     async start(){
 
         //* Middlewares
+        this.app.use( express.json() ); // permite el 'raw'
+        this.app.use( express.urlencoded({ extended: true })); // permite el x-www-form-urlencoded 
 
         //* Public Folder
         this.app.use(express.static( this.public_path ) );
