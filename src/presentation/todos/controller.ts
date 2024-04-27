@@ -1,7 +1,7 @@
 //* El controlador es un mecanismo que permite separar la responsabilidad del router y del controlador
 import { Request, Response } from 'express';
 import { prisma } from '../../data/postgres';
-import { error } from 'console';
+import { CreateTodoDto, UpdateTodoDto } from '../../domain/dtos';
 
 const todos = [
     { id: 1, text: 'Buy milk',   completedAt: new Date() },
@@ -39,14 +39,11 @@ export class TodosController {
     };
 
     public createTodo = async( req: Request, res: Response ) => {
-        const { text } = req.body;
-        
-        if ( !text ) return res.status(400).json({ 
-            error: 'Text is required' 
-        });
+        const [error, createTodoDto] = CreateTodoDto.create(req.body);
+        if( error ) return res.status(400).json({ error });
 
         const todo = await prisma.todo.create({
-            data: { text: text }
+            data: createTodoDto!
         });
 
        
@@ -55,11 +52,9 @@ export class TodosController {
 
     public updateTodo = async(req: Request, res: Response ) => {
         const id = +req.params.id;
+        const [error, updateTodoDto] = UpdateTodoDto.create({ ...req.body, id});
+        if( error ) return res.status(400).json({ error });
         
-        if ( isNaN(id) ) return res.status(400).json({ 
-            error: 'ID Argument must be a number'
-        })
-
         const oneTodo = await prisma.todo.findFirst({
             where: { id: id }
         })
@@ -68,15 +63,10 @@ export class TodosController {
             error: `Todo with id ${id} not found` 
         });
         
-        const { text, completedAt } = req.body;
-
         try {
             const updateTodo = await prisma.todo.update({
                 where: { id: id },
-                data: { 
-                    text: text, 
-                    completedAt: (completedAt) ? new Date(completedAt) : null 
-                }
+                data: updateTodoDto!.values
             });
     
             res.json({ message: updateTodo });
