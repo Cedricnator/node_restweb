@@ -1,4 +1,3 @@
-import test, { describe } from 'node:test';
 import { envs } from '../src/config/envs';
 import { Server } from '../src/presentation/server'
 
