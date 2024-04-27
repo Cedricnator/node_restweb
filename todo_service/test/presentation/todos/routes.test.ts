@@ -1,6 +1,7 @@
 import request  from "supertest"
 import { testServer } from "../../test.server"
 import { prisma } from "../../../src/data/postgres";
+import { error } from "console";
 
 describe('Todo route testing', () => {
 
@@ -9,14 +10,17 @@ describe('Todo route testing', () => {
         await testServer.start();
     })
 
+    //* Se cierra el servidor, para manejarlo de manera independiente
     afterAll(() => {
         testServer.close();
     })
 
+    //* Antes de cada test, se limpia la base de datos
     beforeEach(async() => {
         await prisma.todo.deleteMany();
     })
 
+    //* Datos para insertar y probar
     const todo1 = { text: 'Hola Mundo 1'}
     const todo2 = { text: 'Hola Mundo 1'}
 
@@ -53,4 +57,12 @@ describe('Todo route testing', () => {
             completedAt: todo.completedAt,
         })
     });
+
+    test('should return a 404 notFound api/todos/:id', async() => {
+        const todoId = 99999
+        const { body } = await request( testServer.app )
+            .get(`/api/todos/${todoId}`)
+            .expect(400)
+        expect( body ).toEqual({ error: `Todo with id ${ todoId } not found`})
+    })
 })
