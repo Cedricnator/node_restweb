@@ -28,5 +28,15 @@ Siguiendo el principio de Domain Driven Design
 4. Son clases abstractas o interfaces. En el fondo, lo que buscamos es obligar que nuestros objetos luzcan de la apariencia de nosotros esperamos.
 
 # Infrastructure
-Las implementaciones se colocan dentro de infrastructure
+Las implementaciones se colocan dentro de infrastructure.
+
+Tendremos la implementacion tanto de la clase abstracta datasource como la de repository.
+Luego nuestro controlador va a injectar nuestro repository, de tal modo que, cuando hagamos la llamada a nuestro controlador,
+Tendremos que instanciar tanto el repositorio como el datasource. Luego en el repositorioImpl, le declaramos el datasource.
+
+Podremos dejarlo asi, simplemente haciendo que nuestro controlador implemente el repositorio, o mejor aun, delegarlo a unos casos de uso, de modo que quede una clara separación de responsabilidades.
+
+# Application
+
+
 
