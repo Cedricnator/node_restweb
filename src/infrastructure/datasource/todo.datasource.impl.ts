@@ -20,7 +20,7 @@ export class TodoDataSourceImpl implements TodoDataSource {
         });
 
         if(!todo) throw `Todo with id ${ id } not found`
-        throw TodoEntity.fromObject(todo);
+        return TodoEntity.fromObject(todo);
     }
 
     async updateById(updateTodoDto: UpdateTodoDto): Promise<TodoEntity> {
@@ -36,7 +36,7 @@ export class TodoDataSourceImpl implements TodoDataSource {
     async deleteById(id: number): Promise<TodoEntity> {
         await this.findById( id );
         const deleted = await prisma.todo.delete({
-            where: { id: id }
+            where: { id }
         });
         return TodoEntity.fromObject(deleted);
     }
