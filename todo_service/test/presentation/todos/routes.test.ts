@@ -1,6 +1,6 @@
 import request  from "supertest"
 import { testServer } from "../../test.server"
-import { prisma } from "../../../src/data/postgres";
+import { prisma } from "../../../src/data/postgresDB";
 import { error } from "console";
 
 describe('Todo route testing', () => {
@@ -64,5 +64,13 @@ describe('Todo route testing', () => {
             .get(`/api/todos/${todoId}`)
             .expect(400)
         expect( body ).toEqual({ error: `Todo with id ${ todoId } not found`})
+    })
+
+    test('should return a new Todo api/todos', async() => {
+        const { body } = await request( testServer.app )
+            .post('/api/todos')
+            .send( todo1 )
+            .expect(201)
+        console.log(body)
     })
 })
